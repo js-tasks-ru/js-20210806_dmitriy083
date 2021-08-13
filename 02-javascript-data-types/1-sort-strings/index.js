@@ -5,20 +5,13 @@
  * @returns {string[]}
  */
 export const sortStrings = (arr, param = 'asc') => {
-    const sorted = [...arr];
-    return param === 'asc' ? sorted.sort(compareStr) : sorted.sort(compareStr).reverse();
+  const sorted = [...arr];
+
+  return sorted.sort((strA, strB) => compareStr(strA, strB, param));
 };
 
-const compareStr = (strA, strB) => {
-    if (strA.toLowerCase() === strB.toLowerCase()) {
-        if (!checkUpperCase(strA, strB)) {
-            return -1;
-        } else {
-            return 0;
-        }
-    } else {
-        return strA.localeCompare(strB);
-    }
+const compareStr = (strA, strB, param) => {
+  return param === 'asc'
+    ? strA.localeCompare(strB, 'ru-en', { caseFirst: 'upper' })
+    : strB.localeCompare(strA, 'ru-en', { caseFirst: 'upper' });
 };
-
-const checkUpperCase = (strA, strB) => strA[0] === strB[0].toLowerCase();
